@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <?php
 include('db.php');
+if(isset($_POST['submit'])){
+    $fDate = date('Y-m-d', strtotime($_POST['FDate']));
+    $LDate = date('Y-m-d', strtotime($_POST['LDate']));
+    $sql = "INSERT INTO Appointment(FDate,LDate) VALUES('$fDate','$LDate')";
+    $conn->query($sql);
+}
 ?>
 <html>
 <head>
@@ -22,7 +28,10 @@ include('db.php');
   </script>
 </head>
 <body>
-    <p>Start Date: <input type="text" id="datepicker"></p>
-    <p>Finish Date: <input type="text" id="datepicker2"></p>
+    <form action="index.php" method="post">
+        <p>Start Date: <input type="text" id="datepicker" name="FDate"></p>
+        <p>Finish Date: <input type="text" id="datepicker2" name="LDate"></p>
+        <input type="submit" name="submit">
+    </form>
 </body>
 </html>
