@@ -1,7 +1,10 @@
 <!DOCTYPE html>
+<?php
+include('db.php');
+?>
 <html>
 <head>
-<title>Page Title</title>
+<title>Appointment</title>
 </head>
 <body>
 </body>
