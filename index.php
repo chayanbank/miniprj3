@@ -15,9 +15,13 @@ include('db.php');
     $( function() {
         $( "#datepicker" ).datepicker();
     } );
+    $( function() {
+        $( "#datepicker2" ).datepicker();
+    } );
   </script>
 </head>
 <body>
     <p>Start Date: <input type="text" id="datepicker"></p>
+    <p>Finish Date: <input type="text" id="datepicker2"></p>
 </body>
 </html>
