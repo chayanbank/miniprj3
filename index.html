@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex">
+
+    <title>APPOINTMENT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    <link rel="stylesheet" href="mystyle.css">
+
+    <script type="text/javascript">
+        window.alert = function() {};
+        var defaultCSS = document.getElementById('bootstrap-css');
+
+        function changeCSS(css) {
+            if (css) $('head > link').filter(':first').replaceWith('<link rel="stylesheet" href="' + css + '" type="text/css" />');
+            else $('head > link').filter(':first').replaceWith(defaultCSS);
+        }
+        $(document).ready(function() {
+            var iframe_height = parseInt($('html').height());
+            window.parent.postMessage(iframe_height, 'http://bootsnipp.com');
+        });
+    </script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Appointment</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="aboutus.html"><i class="glyphicon glyphicon-user"></i> About us</a></li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <select class="form-control" ng-model="Fyear" ng-change="changeYear()">
+                        <option ng-repeat="x in year" value="{{x}}">{{x}}</option>
+                    </select>
+                </div><b style="color: white;"> - </b>
+                <div class="form-group">
+                    <select class="form-control" ng-model="Lyear" ng-change="changeYear()">
+                        <option ng-repeat="x in year" value="{{x}}">{{x}}</option>
+                    </select>
+                </div>&nbsp;
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="search" placeholder="Search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit" id="btn_submit">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+                    </div>
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><button class="btn btn-danger navbar-btn" onclick="document.location = 'insert.html'">New</button>&nbsp;&nbsp;</li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table id="mytable" class="table table-bordred table-striped">
+                        <thead>
+                            <th width="100px" ng-click="orderBy('idAppoint')">ID</th>
+                            <th width="400px" ng-click="orderBy('Appointment')">Appointment</th>
+                            <th width="100px" ng-click="orderBy('FDate')">Start Date</th>
+                            <th width="100px" ng-click="orderBy('LDate')">Finish Date</th>
+                            <th width="100px" colspan="2" ng-click="orderBy('status')">Status</th>
+                            <th width="100px" ng-click="orderBy('link')">Link</th>
+                            <th width="50px">Edit</th>
+                            <th width="50px">Delete</th>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in data | filter : search | orderBy : OrderBy">
+                                <td class="txt">{{x.idAppoint}}</td>
+                                <td><a href="detail.php?id={{x.id}}" style="color:#111;text-decoration:none;">{{x.Appointment}}</a></td>
+                                <td ng-show="">{{x.Committee}}</td>
+                                <td class="txt">{{x.FDate}}</td>
+                                <td class="txt">{{x.LDate}}</td>
+                                <td width="50px" class="txt">
+                                    <span ng-if="x.status == 'Expired'"><input type="checkbox" ng-click="status(x.id)" checked></span>
+                                    <span ng-if="x.status == 'Active'"><input type="checkbox" ng-click="status(x.id)"></span>
+                                </td>
+                                <td width="50px" class="txt">{{x.status}}</td>
+                                <td class="txt"><a href="{{x.link}}"><button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-file"></span> File</button></a></td>
+                                <td class="txt">
+                                    <p><button class="btn btn-primary btn-xs" ng-click="Edit(x.id)"><span class="glyphicon glyphicon-pencil"></span></button></p>
+                                </td>
+                                <td class="txt">
+                                    <p><button class="btn btn-danger btn-xs" ng-click="Delete(x.id)"><span class="glyphicon glyphicon-trash"></span></button></p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align:center;font-size:16px;" ng-show="!(data|filter : search).length">ไม่พบคำสั่ง</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope, $http) {
+            $http.get("function.php?status=1").then(function(response) {
+                $scope.data = response.data.Item;
+            });
+            $scope.Fyear = "1995";
+            $scope.Lyear = "2035";
+            $scope.year = ["1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030", "2031", "2032", "2033", "2034", "2035"];
+            $scope.orderBy = function(x) {
+                $scope.OrderBy = x;
+            }
+            $scope.Delete = function(id) {
+                if (confirm("กรุณายืนยันการลบอีกครั้ง !!!")) {
+                    $http.get("function.php?id=" + id + "&status=2").then(function mySucces(response) {
+                        $scope.data = response.data.Item;
+                    });
+                }
+            }
+            $scope.Edit = function(id) {
+                document.location = "edit.php?id=" + id;
+            }
+            $scope.status = function(id) {
+                $http.get("function.php?id=" + id + "&status=3").then(function mySucces(response) {
+                    $scope.data = response.data.Item;
+                });
+            }
+            $scope.changeYear = function() {
+                $http.get("getall.php?Fyear=" + $scope.Fyear + "&Lyear=" + $scope.Lyear).then(function mySucces(response) {
+                    $scope.data = response.data.Item;
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

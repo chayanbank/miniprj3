@@ -1,0 +1,46 @@
+.button {
+    background-color: #4CAF50;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 15px 100px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.submit {
+    background-color: #4CAF50;
+}
+
+.edit {
+    background-color: #008CBA;
+}
+
+.reset {
+    background-color: #f44336;
+}
+
+h2 {
+    font-weight: bold;
+}
+
+th,
+td.txt {
+    text-align: center;
+}
+
+p {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: 16pt;
+}
+
+p.str {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    font-size: 16px;
+}
